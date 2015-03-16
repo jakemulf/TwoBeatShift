@@ -10,7 +10,7 @@ My previous report (BeatShift) discussed the inspiration for this overall projec
 
 Determines the ideal transition between 2 songs while ignoring tempo.
 
-Usage: python twosongtransition.py first_filename second_filename ratio output_file
+Usage: python twosongshift.py first_filename second_filename ratio output_file
 
 Dependencies: math, sys, pyechonest.track
 
