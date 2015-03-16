@@ -10,7 +10,7 @@ My previous report (BeatShift) discussed the inspiration for this overall projec
 
 Determines the ideal transition between 2 songs while ignoring tempo.
 
-Usage: python twosongtransition.py <first_filename> <second_filename> <ratio> <output_file>
+Usage: python twosongtransition.py first_filename second_filename ratio output_file
 
 Dependencies: math, sys, pyechonest.track
 
@@ -18,3 +18,4 @@ Dependencies: math, sys, pyechonest.track
 
 twosongshift.py works using a similar algorithm that infinitejuke.com uses.  Each segment of a song is compared to each segment of the other song using a weighted Euclidean distance formula.  The "best transition" is the one with the smallest distance.
 
+twosongshift.py only compares a given section of the 2 songs.  This is specified by the user with the ratio argument.  A ratio of .5 will only compare the middle 1/2 of a song.  Example: if a song has 100 segments, a ratio of .5 will only cause comparisons with segments 25 to 75.
