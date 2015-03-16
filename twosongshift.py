@@ -1,5 +1,5 @@
 """
-twosongtransition.py
+twosongshift.py
 
 Takes 2 songs and determines the ideal transition between them if tempo is ignored.
 
@@ -12,9 +12,9 @@ import sys
 import pyechonest.track as track
 
 usage = """
-Usage: python twosongtransition.py <first_filename> <second_filename> <ratio> <output_file>
+Usage: python twosongshift.py <first_filename> <second_filename> <ratio> <output_file>
 
-Example: python twosongtransition.py CallMeMaybe.mp3 ShakeItOff.mp3 .33 Transitions.txt
+Example: python twosongshift.py CallMeMaybe.mp3 ShakeItOff.mp3 .33 Transitions.txt
 
 This will determine the transitions between the segments .33 of each side from the middle of CallMeMaybe.mp3 and ShakeItOff.mp3, and will put the
 best transition into Transitions.txt.  Transitions.txt will hold 2 integers.
