@@ -1,11 +1,7 @@
 """
-TODO: make use of the transition limit.  currently only does with a limit of 1
-""" 
-
-"""
 twosongtransition.py
 
-Takes 2 songs and determines the ideal transitions between them if tempo is ignored.
+Takes 2 songs and determines the ideal transition between them if tempo is ignored.
 
 Created by Jacob Mulford on 3/01/2015
 
@@ -16,26 +12,22 @@ import sys
 import pyechonest.track as track
 
 usage = """
-Usage: python twosongtransition.py <first_filename> <second_filename> <transition_limit> <ratio> <output_file>
+Usage: python twosongtransition.py <first_filename> <second_filename> <ratio> <output_file>
 
-Example: python twosongtransition.py CallMeMaybe.mp3 ShakeItOff.mp3 10 .33 Transitions.txt
+Example: python twosongtransition.py CallMeMaybe.mp3 ShakeItOff.mp3 .33 Transitions.txt
 
 This will determine the transitions between the segments .33 of each side from the middle of CallMeMaybe.mp3 and ShakeItOff.mp3, and will put the
-10 best transitions into Transitions.txt.  Transitions.txt will hold 2 integers on each line.
+best transition into Transitions.txt.  Transitions.txt will hold 2 integers.
 The first integer will be the segment in CallMeMaybe.mp3, and the second integer will be the
 segment in ShakeItOff.mp3.
 """
-def main(first_filename, second_filename, transition_limit, ratio, output_file):
+def main(first_filename, second_filename, ratio, output_file):
     #set up the 2 files for analysis
     track_one = track.track_from_filename(first_filename)
     track_one.get_analysis()
 
     track_two = track.track_from_filename(second_filename)
     track_two.get_analysis()
-
-    if (transition_limit > len(track_one.segments) * len(track_two.segments) * ratio * 2):
-        print "Error: transition limit is greater than number of transitions"
-        sys.exit(-1)
 
     if (ratio > 1.0 or ratio < 0.0):
         print "Error: ratio must be between 0.0 and 1.0"
@@ -67,9 +59,7 @@ def main(first_filename, second_filename, transition_limit, ratio, output_file):
                 first_low = i
                 second_low = j
 
-    print first_low+first_start
-    print second_low+second_start
-    print comparisons[first_low][second_low]
+    print_to_file(first_low+first_start,second_low+second_start,output_file)
 
 #determines the weighted Euclidean distance between 2 segments
 def compare_segments(seg_one, seg_two):
@@ -85,20 +75,6 @@ def euc_dist(arr_one,arr_two):
         sum = sum + (arr_one[i] - arr_two[i])**2
     return math.sqrt(sum)
 
-#returns the index of the worst transition in the array
-def max_distance(array, comparisons):
-    worst_first = 0
-    worst_second = 0
-    index = 0
-
-    for i in range(0,len(array)):
-        (first,second) = array[i]
-        if comparisons[first][second] > comparisons[worst_first][worst_second]:
-            worst_first = first
-            worst_second = second
-            index = i
-    return (worst_first, worst_second, index)
-
 #prints the 2 parameters to the given file on the same line separated by a comma
 def print_to_file(param_one, param_two, file_name):
     f = open(file_name, "w")
@@ -110,10 +86,9 @@ if __name__ == '__main__':
     try:
         first_filename = sys.argv[1]
         second_filename = sys.argv[2]
-        transition_limit = int(sys.argv[3])
-        ratio = float(sys.argv[4])
-        output_file = sys.argv[5]
+        ratio = float(sys.argv[3])
+        output_file = sys.argv[4]
     except:
         print usage
         sys.exit(-1)
-    main(first_filename, second_filename, transition_limit, ratio, output_file)
+    main(first_filename, second_filename, ratio, output_file)
